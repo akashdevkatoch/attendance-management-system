@@ -62,6 +62,11 @@ app.register_blueprint(
     employee_bp,
     url_prefix="/api/employee"
 )
+# ==========================
+# Create Database Tables
+# ==========================
+with app.app_context():
+    db.create_all()
 
 # ==========================
 # Routes
