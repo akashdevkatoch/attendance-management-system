@@ -1,0 +1,23 @@
+# Python
+backend/attendance-system/.venv/
+backend/attendance-system/__pycache__/
+backend/attendance-system/*.pyc
+
+# React
+frontend/attendance-frontend/node_modules/
+frontend/attendance-frontend/dist/
+
+# Environment
+.env
+.env.*
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db

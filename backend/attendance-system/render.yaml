@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: attendance-backend
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: SECRET_KEY
+        value: attendance_secret_key
+      - key: JWT_SECRET_KEY
+        value: jwt_secret_key
