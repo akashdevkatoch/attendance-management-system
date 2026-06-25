@@ -15,7 +15,11 @@ class LeaveRequest(db.Model):
     )
 
     leave_type = db.Column(
-        db.Enum("CL", "EL"),
+        db.Enum(
+            "CL",
+            "EL",
+            name="leave_type"
+        ),
         nullable=False
     )
 
@@ -42,9 +46,11 @@ class LeaveRequest(db.Model):
         db.Enum(
             "pending",
             "approved",
-            "rejected"
+            "rejected",
+            name="leave_status"
         ),
-        default="pending"
+        default="pending",
+        nullable=False
     )
 
     admin_remark = db.Column(
