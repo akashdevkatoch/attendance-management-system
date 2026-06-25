@@ -393,6 +393,26 @@ function AdminDashboard() {
         >
           Attendance Reports
         </button>
+        <button
+  onClick={() =>
+    navigate(
+      "/admin/location"
+    )
+  }
+  style={{
+    padding: "14px 24px",
+    border: "none",
+    borderRadius: "12px",
+    background: "#ea580c",
+    color: "#ffffff",
+    cursor: "pointer",
+    fontWeight: "600",
+    boxShadow:
+      "0 5px 15px rgba(234,88,12,0.25)",
+  }}
+>
+  📍 Office Location
+</button>
       </div>
     </div>
   );

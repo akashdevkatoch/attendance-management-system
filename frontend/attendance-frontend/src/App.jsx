@@ -20,6 +20,7 @@ import EditEmployee from "./pages/EditEmployee";
 import ResetPassword from "./pages/ResetPassword";
 import AttendanceReport from "./pages/AttendanceReport";
 import AdminLeaves from "./pages/AdminLeaves";
+import OfficeLocation from "./pages/OfficeLocation";
 
 // Layout & Security
 import Layout from "./components/Layout";
@@ -126,8 +127,13 @@ function App() {
               <AdminLeaves />
             }
           />
+          <Route
+  path="/admin/location"
+  element={
+    <OfficeLocation />
+  }
+/>
         </Route>
-
         {/* Invalid URL */}
         <Route
           path="*"

@@ -42,6 +42,7 @@ from routes.admin import admin_bp
 from routes.attendance import attendance_bp
 from routes.leave import leave_bp
 from routes.employee import employee_bp
+from routes.location import location_bp
 
 # ==========================
 # Register Blueprints
@@ -69,6 +70,10 @@ app.register_blueprint(
 app.register_blueprint(
     employee_bp,
     url_prefix="/api/employee"
+)
+app.register_blueprint(
+    location_bp,
+    url_prefix="/api/location"
 )
 
 # ==========================

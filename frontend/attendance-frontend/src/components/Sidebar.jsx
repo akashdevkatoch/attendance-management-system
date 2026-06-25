@@ -191,6 +191,12 @@ function Sidebar({
             >
               📅 Attendance Reports
             </NavLink>
+            <NavLink
+  to="/admin/location"
+  style={linkStyle}
+>
+  📍 Office Location
+</NavLink>
           </>
         )}
 
