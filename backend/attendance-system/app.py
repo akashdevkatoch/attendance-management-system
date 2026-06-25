@@ -23,7 +23,21 @@ app.config["JWT_SECRET_KEY"] = config.JWT_SECRET_KEY
 # ==========================
 db.init_app(app)
 jwt.init_app(app)
-CORS(app)
+from flask_cors import CORS
+
+CORS(
+    app,
+    resources={
+        r"/api/*": {
+            "origins": [
+                "http://localhost:5173",
+                "http://localhost:7173",
+                "https://attendance-management-system-sage.vercel.app",
+            ]
+        }
+    },
+    supports_credentials=False,
+)
 
 # ==========================
 # Import Models

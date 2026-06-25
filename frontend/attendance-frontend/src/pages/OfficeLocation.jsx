@@ -15,49 +15,47 @@ function OfficeLocation() {
 
   const loadLocation = async () => {
     try {
+      console.log("========== LOAD LOCATION ==========");
+
       const res = await api.get("/location");
+
+      console.log("SUCCESS");
+      console.log(res.data);
 
       setOfficeName(res.data.office_name || "");
       setLatitude(res.data.latitude || "");
       setLongitude(res.data.longitude || "");
       setRadius(res.data.radius || "");
     } catch (err) {
+      console.log("========== LOAD ERROR ==========");
       console.log(err);
+      console.log(err.response);
+      console.log(err.response?.data);
     }
   };
-const getCurrentLocation = () => {
 
-  if (!navigator.geolocation) {
-    alert("Geolocation is not supported.");
-    return;
-  }
-
-  navigator.geolocation.getCurrentPosition(
-
-    (position) => {
-
-      setLatitude(
-        position.coords.latitude.toFixed(6)
-      );
-
-      setLongitude(
-        position.coords.longitude.toFixed(6)
-      );
-
-    },
-
-    () => {
-      alert("Unable to get location.");
-    },
-
-    {
-      enableHighAccuracy: true,
-      timeout: 10000
+  const getCurrentLocation = () => {
+    if (!navigator.geolocation) {
+      alert("Geolocation is not supported.");
+      return;
     }
 
-  );
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setLatitude(position.coords.latitude.toFixed(6));
+        setLongitude(position.coords.longitude.toFixed(6));
+      },
+      (error) => {
+        console.log(error);
+        alert("Unable to get location.");
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 10000,
+      }
+    );
+  };
 
-};
   const saveLocation = async () => {
     if (
       !officeName ||
@@ -69,28 +67,70 @@ const getCurrentLocation = () => {
       return;
     }
 
+    const payload = {
+      office_name: officeName,
+      latitude: parseFloat(latitude),
+      longitude: parseFloat(longitude),
+      radius: parseInt(radius),
+    };
+
+    console.log("========== SAVE REQUEST ==========");
+    console.log(payload);
+
     try {
       setLoading(true);
 
-      await api.put("/location", {
-        office_name: officeName,
-        latitude: parseFloat(latitude),
-        longitude: parseFloat(longitude),
-        radius: parseInt(radius),
-      });
+      const response = await api.put(
+        "/location",
+        payload
+      );
+
+      console.log("========== SUCCESS ==========");
+      console.log(response);
 
       alert("Office Location Updated Successfully");
     } catch (err) {
+
+      console.log("========== ERROR ==========");
       console.log(err);
 
+      console.log("Status");
+      console.log(err.response?.status);
+
+      console.log("Response");
+      console.log(err.response?.data);
+
+      console.log("Headers");
+      console.log(err.response?.headers);
+
+      console.log("URL");
+      console.log(err.config?.url);
+
+      console.log("Method");
+      console.log(err.config?.method);
+
+      console.log("Request");
+      console.log(err.request);
+
+      console.log("Complete Response");
+      console.log(err.response);
+
       alert(
-        err.response?.data?.message ||
-          "Unable to update location"
+`STATUS : ${err.response?.status}
+
+URL : ${err.config?.url}
+
+MESSAGE :
+${JSON.stringify(err.response?.data)}
+
+ERROR :
+${err.message}`
       );
     } finally {
       setLoading(false);
     }
   };
+
   return (
     <div
       style={{
@@ -104,7 +144,8 @@ const getCurrentLocation = () => {
           background: "#ffffff",
           borderRadius: "18px",
           padding: "30px",
-          boxShadow: "0 10px 25px rgba(0,0,0,0.08)",
+          boxShadow:
+            "0 10px 25px rgba(0,0,0,0.08)",
         }}
       >
         <h2
@@ -123,7 +164,6 @@ const getCurrentLocation = () => {
           onChange={(e) =>
             setOfficeName(e.target.value)
           }
-          placeholder="Office Name"
           style={inputStyle}
         />
 
@@ -135,7 +175,6 @@ const getCurrentLocation = () => {
           onChange={(e) =>
             setLatitude(e.target.value)
           }
-          placeholder="Latitude"
           style={inputStyle}
         />
 
@@ -147,9 +186,24 @@ const getCurrentLocation = () => {
           onChange={(e) =>
             setLongitude(e.target.value)
           }
-          placeholder="Longitude"
           style={inputStyle}
         />
+
+        <button
+          onClick={getCurrentLocation}
+          style={{
+            marginBottom: "20px",
+            width: "100%",
+            padding: "12px",
+            background: "#16a34a",
+            color: "#fff",
+            border: "none",
+            borderRadius: "8px",
+            cursor: "pointer",
+          }}
+        >
+          📍 Use Current Location
+        </button>
 
         <label>Geo Fence Radius (Meter)</label>
 
@@ -159,7 +213,6 @@ const getCurrentLocation = () => {
           onChange={(e) =>
             setRadius(e.target.value)
           }
-          placeholder="Radius"
           style={inputStyle}
         />
 
